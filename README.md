@@ -21,7 +21,7 @@ You may find some useful ideas in the incrementally-cleaned hash table used as a
 GETTING STARTED
 ---------------
 
-lines. "hostip.c" is an example of how to integrate MADNS into an external "select" loop.
+"hostip.c" is an example of how to integrate MADNS into an external "select" loop.
 The standalone program "hostip" reads a stream of requests (domain names)
 and writes a stream of:
     input[tab]ip 
