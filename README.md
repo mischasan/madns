@@ -24,11 +24,15 @@ GETTING STARTED
 "hostip.c" is an example of how to integrate MADNS into an external "select" loop.
 The standalone program "hostip" reads a stream of requests (domain names)
 and writes a stream of:
+
     input[tab]ip 
+
 or 
+
     input[tab]0.0.0.0
 
-as responses are received. A DNS server may reply INADDR_NONE (255.255.255.255).
+... as responses are received or timed out. 
+A DNS server may reply INADDR_NONE (255.255.255.255).
 On exit, it prints some stats to stderr.
 
 
