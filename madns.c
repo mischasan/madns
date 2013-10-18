@@ -49,7 +49,7 @@ static inline void qinit(QLINK * q);
 static inline int qempty(QLINK * q);
 static inline void qpush(QLINK * q, QLINK * qel);
 static inline QLINK * qpull(QLINK * q);
-static int qleng(QLINK const *list, int limit);
+static int qleng(QLINK const *list);
 //--------------|---------------------------------------------
 typedef uint32_t HASH;
 typedef struct sockaddr SADDR;
@@ -359,9 +359,8 @@ madns_dump(MADNS const *mp, FILE * fp, MADNS_OPTS opts)
 
     if (!fp)
         return;
-    int     nunused = qleng(mp->unused.next, mp->nfree);
-    int     nactive = qleng(mp->active.next,
-                            mp->nservs * mp->server_reqs - mp->nfree);
+    int     nunused = qleng(mp->unused.next);
+    int     nactive = qleng(mp->active.next);
 
     fprintf(fp, "\n#-- MADNS:%p query_time:%d server_reqs:%d sock:%d"
             " nservs:%d qsize:%d nfree:%d #active:%d #unused:%d\n",
@@ -701,13 +700,15 @@ qempty(QLINK * q)
 }
 
 static int
-qleng(QLINK const *list, int limit)
+qleng(QLINK const *list)
 {
     QLINK const *qp = list;
-    int     leng = 0;
-
-    for (; leng <= limit && (qp = qp->next) != list; ++leng);
-    return leng > limit ? -1 : leng;
+    int leng = 0;
+    while (1) {
+        if (qp->next->prev != qp)    return -1;    // A LOOP!
+        if ((qp = qp->next) == list) return leng;
+        ++leng;
+    }
 }
 
 static inline void
