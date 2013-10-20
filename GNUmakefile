@@ -11,17 +11,17 @@ madns.lib       = $(madns)/madns.o
 
 #---------------- PUBLIC TARGETS (see rules.mk):
 all     .PHONY  : madns.all
-test	.PHONY	: madns.test
+test	  .PHONY	: madns.test
 install         : madns.install
 
 #---------------- PRIVATE RULES:
 madns.all      	: $(madns.bin) 
-madns.install	: madns.all
-madns.test	: $(madns.test:%=%.pass)
+madns.install 	: madns.all
+madns.test	    : $(madns.test:%=%.pass)
 
 $(madns)/hostip	: $(madns)/madns.o
 
-$(madns.test)	: LDLIBS += -pthread
+$(madns.test)	  : LDLIBS += -pthread
 $(madns.test)   : $(madns)/madns.o $(madns)/tap.o
 
 -include $(madns)/*.d
