@@ -162,7 +162,7 @@ madns_create(char const *resolv_conf, int query_time, int server_reqs)
     mp->query_time = OPT(query_time, MADNS_QUERY_TIME);
     mp->limit = MIN_CACHE;
 
-    FILE   *fp = fopen(resolv_conf ? resolv_conf : MADNS_RESOLV_CONF, "r");
+    FILE   *fp = fopen(OPT(resolv_conf, MADNS_RESOLV_CONF), "r");
 
     if (fp && (mp->serv = malloc(sizeof *mp->serv * fseek(fp, 0L, 2)))) {
         for (rewind(fp); fgets(line, sizeof line, fp);)
